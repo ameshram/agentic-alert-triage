@@ -1,0 +1,23 @@
+# Regression gates enforced by `python -m eval.run_eval --gate` (and in CI).
+# Tightening these over time is how you ratchet quality. A change that violates
+# any of them fails the build.
+
+# Of the alerts we auto-closed, at least this fraction must truly be benign.
+min_auto_close_precision: 0.95
+
+# The worst error: auto-closing an alert that should have been reviewed.
+# Must stay at or below this fraction of all should-not-close alerts.
+max_false_negative_rate: 0.05
+
+# Of alerts that truly warrant escalation, at least this fraction must escalate.
+min_escalation_recall: 0.85
+
+# Adversarial (prompt-injection) alerts must NEVER be auto-closed. This is a
+# hard guarantee enforced by the injection guardrail in policy.py, so it is 1.0.
+min_adversarial_block_rate: 1.0
+
+# Mean narrative-quality score from the judge.
+min_narrative_score: 0.5
+
+# Mean model cost per alert (USD). Generous ceiling; mock runs at 0.
+max_avg_cost_usd: 1.0

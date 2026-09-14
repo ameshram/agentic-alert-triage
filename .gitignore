@@ -1,0 +1,19 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+
+# Secrets — never commit
+.env
+
+# Generated artifacts (reproducible via `make data` / `make eval`)
+data/synthetic/
+eval/report.md
+eval/report.json

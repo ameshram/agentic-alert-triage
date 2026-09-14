@@ -1,0 +1,41 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "agentic-alert-triage"
+version = "0.1.0"
+description = "Reference agentic system for financial-crime alert triage (synthetic data)."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "Anup Meshram" }]
+dependencies = [
+    "pydantic>=2.5",
+    "pyyaml>=6.0",
+]
+
+[project.optional-dependencies]
+# The real model path. The core package, tests, and eval run without this.
+live = ["anthropic>=0.40"]
+# The HTTP service.
+api = ["fastapi>=0.110", "uvicorn>=0.27"]
+dev = ["pytest>=7.4", "ruff>=0.4"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
+addopts = "-q"
+
+[tool.ruff]
+line-length = 120
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+# Import-after-sys.path is intentional in scripts/ and eval/ entrypoints.
+# scripts/ are dense synthetic-data construction utilities; E501 relaxed there.
+per-file-ignores = { "scripts/*" = ["E402", "E501"], "eval/*" = ["E402"] }

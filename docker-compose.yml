@@ -1,0 +1,27 @@
+# Local topology. By default the app runs fully self-contained (in-memory
+# retrieval, synthetic data baked into the image). The `db` service shows the
+# production data path: swap retrieval.VectorStore for pgvector and point the
+# store at Postgres. It is commented out so `docker compose up` needs nothing.
+
+services:
+  app:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      TRIAGE_LIVE: "${TRIAGE_LIVE:-0}"
+      ANTHROPIC_API_KEY: "${ANTHROPIC_API_KEY:-}"
+    # depends_on: [db]
+
+  # db:
+  #   image: pgvector/pgvector:pg16
+  #   environment:
+  #     POSTGRES_PASSWORD: triage
+  #     POSTGRES_DB: triage
+  #   ports:
+  #     - "5432:5432"
+  #   volumes:
+  #     - pgdata:/var/lib/postgresql/data
+
+# volumes:
+#   pgdata:
