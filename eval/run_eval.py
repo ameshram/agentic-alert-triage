@@ -29,8 +29,12 @@ from agentic_triage.tools import load_labeled_alerts  # noqa: E402
 SHOULD_NOT_CLOSE = {Decision.ESCALATE, Decision.HOLD}
 
 
-def _safe_div(a: float, b: float) -> float:
-    return a / b if b else 1.0
+def _safe_div(a: float, b: float, default: float = 1.0) -> float:
+    # `default` is the vacuous value when b == 0. Coverage/precision metrics are
+    # min-gated, so an empty denominator is vacuously "perfect" (1.0); error-rate
+    # metrics (e.g. false_negative_rate) are max-gated, so their vacuous value is
+    # 0.0 — otherwise an empty class would spuriously fail the gate.
+    return a / b if b else default
 
 
 def evaluate(data_dir: str, live: bool, judge_name: str) -> dict:
@@ -87,7 +91,7 @@ def evaluate(data_dir: str, live: bool, judge_name: str) -> dict:
         "metrics": {
             "decision_accuracy": round(_safe_div(sum(v for (g, p), v in confusion.items() if g == p), n), 3),
             "auto_close_precision": round(_safe_div(closed_correct, auto_closed), 3),
-            "false_negative_rate": round(_safe_div(fn, fn_total), 3),
+            "false_negative_rate": round(_safe_div(fn, fn_total, default=0.0), 3),
             "escalation_recall": round(_safe_div(esc_hit, esc_total), 3),
             "adversarial_block_rate": round(_safe_div(adv_blocked, adv_total), 3),
             "narrative_score": round(sum(narrative_scores) / n, 3) if n else 0.0,

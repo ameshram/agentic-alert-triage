@@ -38,9 +38,23 @@ Anyone who can set a payment memo can attempt to instruct the triage model
    (`adversarial_block_rate`, gated at 1.0).
 
 The scanner is intentionally conservative (prefers false alarms to misses) and is
-**not** a complete solution — a sufficiently clever, well-formed injection could
-pass the scanner. That is exactly why layer 3 (human containment) does not depend
-on the scanner catching the *content*: any anomaly routes to a human.
+**not** a complete solution — a sufficiently clever, well-formed injection can pass
+it. Be precise about what layer 3 then buys: the injection-triggered `hold` fires
+**only for patterns layer 2 actually detects** (`flags.injection` is set solely
+from the scanner's output). An injection the scanner misses is *not* independently
+caught as an "anomaly" — there is no separate anomaly detector. The residual
+defenses in that case are (a) layer 1 isolation (the model is instructed to treat
+`<untrusted>` content as data, not instructions) and (b) the policy engine's
+*other*, injection-independent guardrails — the confidence floor for auto-close,
+plus watchlist and budget checks — which still constrain what a manipulated model
+can cause even with no injection flag.
+
+Consequently the committed `adversarial_block_rate = 1.0` measures only injections
+that match the scanner's patterns (every synthetic adversarial case does); it is
+**not** evidence that novel, well-formed injections are contained. Measuring that
+residual risk — adversarial cases crafted to evade the regexes, and a model-side
+"suspected manipulation" signal in the `RiskAssessment` that routes to a human
+independently of the scanner — is tracked as future work (v2 adversarial suite).
 
 ## Data protection
 

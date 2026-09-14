@@ -1,4 +1,4 @@
-.PHONY: setup data test lint eval eval-live run clean quickstart
+.PHONY: setup api data test lint eval eval-live run clean quickstart
 
 setup:  ## install the package with dev extras
 	pip install -e ".[dev]"
@@ -18,7 +18,10 @@ eval: data  ## run the offline eval with regression gates
 eval-live: data  ## run the eval against the real model (needs ANTHROPIC_API_KEY and .[live])
 	python -m eval.run_eval --data data/synthetic --live --judge claude
 
-run:  ## start the HTTP service (needs .[api])
+api:  ## install the HTTP service extra (fastapi + uvicorn)
+	pip install -e ".[api]"
+
+run: api  ## install the API extra (if needed) and start the HTTP service
 	uvicorn agentic_triage.service:app --reload
 
 quickstart: setup data test eval  ## everything a reviewer needs, in one command
