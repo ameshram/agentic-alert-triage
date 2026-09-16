@@ -1,6 +1,6 @@
 """Generate a synthetic, labeled AML alert dataset.
 
-100% synthetic — no real people, accounts, or institutions. Deterministic given
+100% synthetic - no real people, accounts, or institutions. Deterministic given
 a seed, so the eval is reproducible. Produces, under --out:
 
     entities.json         KYC profiles
@@ -10,7 +10,7 @@ a seed, so the eval is reproducible. Produces, under --out:
     labeled_alerts.jsonl  alerts + ground-truth (gold_decision, gold_risk)
 
 Each alert belongs to a scenario whose gold label reflects what a competent
-analyst *should* decide — independent of how our pipeline happens to score it,
+analyst *should* decide - independent of how our pipeline happens to score it,
 so the eval measures the pipeline against an external standard, not itself.
 
 Usage:  python scripts/generate_synthetic_data.py --out data/synthetic --seed 42

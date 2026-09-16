@@ -22,7 +22,7 @@ equally costly. We report:
 
 `scripts/generate_synthetic_data.py` emits `labeled_alerts.jsonl`, where each
 alert's `gold_decision` reflects what a competent analyst *should* decide for
-that scenario — assigned by the scenario, **independent of how our pipeline
+that scenario - assigned by the scenario, **independent of how our pipeline
 scores it**. So the eval measures the pipeline against an external standard, not
 against itself. Scenarios: benign, structuring, high-risk-geo, watchlist match,
 velocity, and adversarial (prompt-injection).
@@ -42,11 +42,11 @@ min_narrative_score:      0.5
 max_avg_cost_usd:         1.0
 ```
 
-## Mock vs. live — read the numbers correctly
+## Mock vs. live - read the numbers correctly
 
 - **`--mock` (default).** `MockLLM` is a deterministic rule engine aligned with
   the policy. On the synthetic scenarios it is near-perfect **by construction**.
-  Mock numbers validate the *harness, guardrails, and methodology* — not model
+  Mock numbers validate the *harness, guardrails, and methodology* - not model
   intelligence. They exist so CI can gate on every push with no API key.
 - **`--live`.** Runs Claude as the reasoning brain and (with `--judge claude`) as
   the narrative judge. This is where the metrics become a real measure of model

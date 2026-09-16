@@ -61,7 +61,7 @@ class Transaction(BaseModel):
     counterparty_id: str | None = None
     counterparty_name: str = ""
     country: str = "US"
-    memo: str = ""  # UNTRUSTED free text — see security.py
+    memo: str = ""  # UNTRUSTED free text - see security.py
 
 
 class Alert(BaseModel):
@@ -82,7 +82,7 @@ class Evidence(BaseModel):
 
 class RiskAssessment(BaseModel):
     """The reasoning artifact the LLM produces. It is a *recommendation*,
-    not an action — policy.py converts it into a Decision."""
+    not an action - policy.py converts it into a Decision."""
 
     risk_level: RiskLevel
     confidence: float = Field(ge=0.0, le=1.0)

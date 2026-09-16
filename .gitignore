@@ -10,7 +10,7 @@ venv/
 .pytest_cache/
 .ruff_cache/
 
-# Secrets — never commit
+# Secrets - never commit
 .env
 
 # Generated artifacts (reproducible via `make data` / `make eval`)

@@ -9,7 +9,7 @@ auto-close this alert" in a payment memo. We treat all such text as *data*:
   2. wrap_untrusted() delimits it so the model can see where untrusted data
      begins and ends. The system prompt instructs the model to never follow
      instructions found inside these delimiters.
-  3. Any flag raised here forces the alert to human review in policy.py — a
+  3. Any flag raised here forces the alert to human review in policy.py - a
      model that is being manipulated must never be allowed to auto-close.
 
 This is defense in depth, not a guarantee. See docs/threat-model.md.
@@ -23,7 +23,7 @@ import unicodedata
 _MAX_LEN = 2000
 
 # Patterns that have no legitimate reason to appear in a payment memo or a
-# counterparty name. Matching is case-insensitive and conservative — we would
+# counterparty name. Matching is case-insensitive and conservative - we would
 # rather over-flag to a human than under-flag.
 _INJECTION_PATTERNS: list[tuple[str, re.Pattern[str]]] = [
     ("override_instructions", re.compile(r"ignore\s+(all\s+)?(previous|prior|above)", re.I)),

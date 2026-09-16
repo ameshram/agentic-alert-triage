@@ -1,6 +1,6 @@
 """Minimal, dependency-free vector store for prior-case retrieval (RAG).
 
-The default embedding is a deterministic hashing bag-of-words — good enough to
+The default embedding is a deterministic hashing bag-of-words - good enough to
 demonstrate retrieval, run offline, and keep tests reproducible with zero
 external services. In production you would swap `embed()` for a real embedding
 model and back `VectorStore` with pgvector; the interface is intentionally the

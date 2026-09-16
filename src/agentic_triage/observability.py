@@ -2,7 +2,7 @@
 
 Every alert produces a trace: each tool call and each model call, with latency
 and (for model calls) token counts and dollar cost. This is what makes the
-system operable — you can answer "what did this decision cost?" and "where did
+system operable - you can answer "what did this decision cost?" and "where did
 the latency go?" per case, and aggregate across a run in the eval harness.
 """
 

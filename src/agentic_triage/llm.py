@@ -1,7 +1,7 @@
 """The reasoning "brain", behind one interface with two implementations.
 
-    AnthropicClient — real reasoning via Claude tool use (needs an API key).
-    MockLLM         — a deterministic, rule-based stand-in.
+    AnthropicClient - real reasoning via Claude tool use (needs an API key).
+    MockLLM         - a deterministic, rule-based stand-in.
 
 Why a mock brain? So the entire pipeline and the evaluation harness run offline,
 with no API key and no cost, in CI and on any reviewer's laptop. The mock is a
@@ -129,7 +129,7 @@ class MockLLM:
         if rflags:
             points += min(2, len(rflags))
             findings.append(f"Subject carries standing risk flags: {rflags}.")
-        # Only count prior-case precedent when the match is actually relevant —
+        # Only count prior-case precedent when the match is actually relevant -
         # a low-similarity hit is noise, not evidence.
         strong_priors = [
             p

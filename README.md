@@ -2,8 +2,8 @@
 
 **A reference agentic system for financial-crime (AML) alert triage.** An LLM
 investigates each alert with tools, builds an evidence-backed rationale, and a
-**deterministic policy engine** turns that into an action — `auto_close`,
-`escalate`, or `hold` — with a human in the loop for anything risky or
+**deterministic policy engine** turns that into an action - `auto_close`,
+`escalate`, or `hold` - with a human in the loop for anything risky or
 uncertain. It ships with a synthetic-data generator, an **evaluation harness
 with CI regression gates**, and prompt-injection defenses.
 
@@ -20,8 +20,8 @@ with CI regression gates**, and prompt-injection defenses.
 
 Anti-money-laundering (AML) teams are buried in alerts. The overwhelming
 majority are false positives, but every one must be investigated, and the cost
-and latency of manual triage scale linearly with volume. The obvious idea —
-"let an LLM read the alert and decide" — is dangerous for three reasons:
+and latency of manual triage scale linearly with volume. The obvious idea -
+"let an LLM read the alert and decide" - is dangerous for three reasons:
 
 1. **Asymmetric error cost.** Auto-closing a *genuinely* suspicious alert is far
    worse than escalating a benign one. A naive classifier optimizing accuracy
@@ -40,7 +40,7 @@ The single most important design choice: **the LLM never fires an action
 directly.** It produces a `RiskAssessment` (risk level + calibrated confidence +
 an evidence-cited narrative). A separate, pure, unit-tested
 [`policy.py`](src/agentic_triage/policy.py) converts that assessment into an
-action under asymmetric rules — only a **LOW-risk, high-confidence, un-flagged**
+action under asymmetric rules - only a **LOW-risk, high-confidence, un-flagged**
 alert is ever auto-closed; everything else goes to a human. Guardrails
 (injection detected, budget exceeded, watchlist hit) override the model's view
 entirely.
@@ -77,8 +77,8 @@ tools plus a terminal `submit_assessment` tool:
 The **"brain" is swappable** behind one interface
 ([`llm.py`](src/agentic_triage/llm.py)):
 
-- **`AnthropicClient`** — real reasoning via Claude (`claude-opus-5`) tool use.
-- **`MockLLM`** — a deterministic, rule-based stand-in.
+- **`AnthropicClient`** - real reasoning via Claude (`claude-opus-5`) tool use.
+- **`MockLLM`** - a deterministic, rule-based stand-in.
 
 The mock exists so the **entire pipeline and evaluation run offline, with no API
 key and no cost**, in CI and on any reviewer's laptop.
@@ -86,12 +86,12 @@ key and no cost**, in CI and on any reviewer's laptop.
 ## Evaluation
 
 Decision quality is measured against a labeled synthetic set with metrics chosen
-for *this* problem — not generic accuracy:
+for *this* problem - not generic accuracy:
 
-- **`false_negative_rate`** — how often a should-be-reviewed alert was
+- **`false_negative_rate`** - how often a should-be-reviewed alert was
   auto-closed. This is the metric that matters most; the gate keeps it ≤ 0.05.
-- **`escalation_recall`** — of alerts that truly warrant escalation, how many did.
-- **`adversarial_block_rate`** — fraction of prompt-injection alerts *not*
+- **`escalation_recall`** - of alerts that truly warrant escalation, how many did.
+- **`adversarial_block_rate`** - fraction of prompt-injection alerts *not*
   auto-closed. Gated at **1.0** (a hard guarantee from the injection guardrail).
 - **`auto_close_precision`**, **`narrative_score`** (LLM-as-judge), plus
   **cost/latency per case**.
@@ -120,7 +120,7 @@ Latest offline run (`model=mock`, 36 synthetic alerts):
 
 > **Read these honestly.** `MockLLM` is a rule engine aligned with the policy, so
 > on synthetic scenarios it is near-perfect *by construction*. These numbers
-> validate the **harness, the guardrails, and the methodology** — not model
+> validate the **harness, the guardrails, and the methodology** - not model
 > intelligence. To evaluate the real model, run `make eval-live` (needs
 > `ANTHROPIC_API_KEY` and `pip install ".[live]"`), which also uses Claude as the
 > narrative judge.
@@ -130,11 +130,11 @@ Latest offline run (`model=mock`, 36 synthetic alerts):
 Untrusted text is handled at three layers ([`security.py`](src/agentic_triage/security.py),
 [details](docs/threat-model.md)):
 
-1. **Wrap** — memos/names/prior-case text are delimited in `<untrusted>` tags;
+1. **Wrap** - memos/names/prior-case text are delimited in `<untrusted>` tags;
    the system prompt tells the model these are data, never instructions.
-2. **Scan** — a heuristic flags known injection patterns and strips control
+2. **Scan** - a heuristic flags known injection patterns and strips control
    characters.
-3. **Force review** — any flag routes the alert to a human in `policy.py`. A
+3. **Force review** - any flag routes the alert to a human in `policy.py`. A
    model that is being manipulated is never allowed to auto-close.
 
 The adversarial slice of the eval verifies layer 3 end-to-end.
@@ -185,9 +185,9 @@ docs/                                 architecture, evaluation, threat model
   curve rather than a hand-picked constant.
 - **Async + batching** for throughput, with a cheaper model (`claude-sonnet-5`)
   as a first-pass triage and Opus reserved for escalation-worthy cases.
-- **Feedback loop** — analyst dispositions on `hold`/`escalate` cases become new
+- **Feedback loop** - analyst dispositions on `hold`/`escalate` cases become new
   labeled eval data, closing the loop.
-- **Richer adversarial suite** — data-exfiltration and tool-abuse attempts, not
+- **Richer adversarial suite** - data-exfiltration and tool-abuse attempts, not
   just close-the-alert injections.
 
 ---

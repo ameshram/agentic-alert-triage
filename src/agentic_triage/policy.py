@@ -7,7 +7,7 @@ whether a human is required. Because it is pure and rule-based, it is fully
 unit-tested (tests/test_policy.py) and every decision carries a reason string.
 
 Design principle: a false auto-close (closing a genuinely suspicious alert) is
-the most expensive error, so the rules are asymmetric — only a LOW-risk,
+the most expensive error, so the rules are asymmetric - only a LOW-risk,
 high-confidence, un-flagged alert is ever auto-closed. Everything else, and
 anything that trips a guardrail, goes to a human.
 """
@@ -37,7 +37,7 @@ class PolicyOutcome:
 def decide(
     assessment: RiskAssessment, flags: PolicyFlags, cfg: Settings
 ) -> PolicyOutcome:
-    # 1. Safety guardrails first — these override the model's view entirely.
+    # 1. Safety guardrails first - these override the model's view entirely.
     if flags.injection:
         return PolicyOutcome(
             Decision.HOLD,
@@ -67,7 +67,7 @@ def decide(
             Decision.HOLD, True, "Medium risk; hold for analyst review."
         )
 
-    # 3. LOW risk — the only path to auto-close, gated on confidence.
+    # 3. LOW risk - the only path to auto-close, gated on confidence.
     if assessment.confidence >= cfg.auto_close_min_confidence:
         return PolicyOutcome(
             Decision.AUTO_CLOSE,

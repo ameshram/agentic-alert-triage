@@ -3,7 +3,7 @@
 Everything that a reviewer might want to tune lives here, not scattered through
 the code. Budgets and thresholds are first-class because at staff level the
 interesting questions are "what does it cost?" and "when do we stop trusting
-the model and call a human?" — both answered here.
+the model and call a human?" - both answered here.
 """
 
 from __future__ import annotations
@@ -43,7 +43,7 @@ class Settings:
 
     # Policy: the minimum model confidence required to auto-close a LOW-risk
     # alert. Everything below this threshold goes to a human. Deliberately high
-    # — a false auto-close (missing real crime) is the costliest error.
+    # - a false auto-close (missing real crime) is the costliest error.
     auto_close_min_confidence: float = float(
         os.environ.get("TRIAGE_AUTO_CLOSE_MIN_CONFIDENCE", "0.80")
     )
@@ -56,5 +56,5 @@ class Settings:
 
 
 # High-risk jurisdictions used by the synthetic generator and the mock brain.
-# Illustrative only — a real system would source this from a maintained list.
+# Illustrative only - a real system would source this from a maintained list.
 HIGH_RISK_COUNTRIES: set[str] = {"IR", "KP", "SY", "RU", "MM"}

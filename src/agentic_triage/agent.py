@@ -4,7 +4,7 @@ This owns the investigation. It drives whichever LLMClient it is given, executes
 the tool calls the model requests, sanitizes and feeds back results, and enforces
 hard budgets (max steps / cost / latency). Two things never leave this loop:
 the private "_flags" from tools (injection signals) and the watchlist-hit signal
-— both are collected here and handed to the policy engine, not the model.
+- both are collected here and handed to the policy engine, not the model.
 """
 
 from __future__ import annotations

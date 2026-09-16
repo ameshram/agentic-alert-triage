@@ -33,7 +33,7 @@ def _safe_div(a: float, b: float, default: float = 1.0) -> float:
     # `default` is the vacuous value when b == 0. Coverage/precision metrics are
     # min-gated, so an empty denominator is vacuously "perfect" (1.0); error-rate
     # metrics (e.g. false_negative_rate) are max-gated, so their vacuous value is
-    # 0.0 — otherwise an empty class would spuriously fail the gate.
+    # 0.0 - otherwise an empty class would spuriously fail the gate.
     return a / b if b else default
 
 

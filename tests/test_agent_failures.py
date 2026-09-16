@@ -1,7 +1,7 @@
 """Failure-path coverage for the agent loop (agent.investigate, via TriageEngine).
 
-These drive the loop with tiny scripted LLM clients — no MockLLM rules, no API
-key — so the defensive branches actually run: budget exhaustion, a model that
+These drive the loop with tiny scripted LLM clients - no MockLLM rules, no API
+key - so the defensive branches actually run: budget exhaustion, a model that
 never submits an assessment, an unknown tool, and a tool that raises. In every
 case the system must fail closed (route to a human / never crash), which is the
 property that matters for a triage system.

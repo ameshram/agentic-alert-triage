@@ -26,15 +26,15 @@ converts it to `auto_close | escalate | hold`.
 not free-form model output. It lets us encode the *asymmetric* cost of errors
 (never auto-close on thin evidence) and unit-test every decision path.
 **Alternative rejected:** let the model emit the action directly (or via a
-forced tool call). Simpler, but unauditable and unsafe — a single prompt
+forced tool call). Simpler, but unauditable and unsafe - a single prompt
 injection or a miscalibrated confidence could close a real case.
 
 ### 2. A swappable brain with a deterministic mock
 **Decision:** `LLMClient` is an interface with `AnthropicClient` and `MockLLM`.
 **Why:** the whole pipeline + eval run offline, deterministically, in CI with no
-key and no cost. It also isolates *harness* correctness from *model* quality —
+key and no cost. It also isolates *harness* correctness from *model* quality -
 the mock lets us prove the guardrails and metrics work independent of any model.
-**Alternative rejected:** mocking the SDK at the HTTP layer — brittle and doesn't
+**Alternative rejected:** mocking the SDK at the HTTP layer - brittle and doesn't
 give a deterministic reasoning policy to test the pipeline against.
 
 ### 3. Retrieval isolated behind a tiny interface
@@ -47,7 +47,7 @@ low-similarity hits don't leak risk into unrelated alerts.
 ### 4. Manual tool-use loop, not the SDK tool-runner
 **Decision:** own the loop in `agent.py`.
 **Why:** the loop is where the budget guardrail, the untrusted-text handling, and
-the flag collection live — all per-turn concerns that are clearest when the loop
+the flag collection live - all per-turn concerns that are clearest when the loop
 is explicit. The SDK tool-runner is a fine choice when those hooks aren't needed.
 
 ## Failure modes & how they're handled

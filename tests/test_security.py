@@ -17,7 +17,7 @@ def test_injections_are_flagged():
 
 
 def test_benign_memos_are_not_flagged():
-    for text in ["Rent for January", "Invoice 4821 — consulting", "grocery split with roommates", ""]:
+    for text in ["Rent for January", "Invoice 4821 - consulting", "grocery split with roommates", ""]:
         _, flags = scan_untrusted(text)
         assert flags == [], f"unexpected flag for benign text: {text!r}"
 
